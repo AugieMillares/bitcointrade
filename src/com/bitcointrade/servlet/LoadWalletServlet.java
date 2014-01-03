@@ -14,6 +14,7 @@ import com.bitcointrade.service.wallet.WalletService;
 import com.bitcointrade.service.wallet.WalletUtils;
 import com.google.bitcoin.core.Address;
 import com.google.bitcoin.core.AddressFormatException;
+import com.google.bitcoin.core.Sha256Hash;
 import com.google.bitcoin.core.Transaction;
 import com.google.bitcoin.core.Wallet;
 import com.google.bitcoin.core.WrongNetworkException;
@@ -49,12 +50,12 @@ public class LoadWalletServlet extends HttpServlet {
             new WalletUtils().displayReceiverWalletInfoFromMemory();;
         if (action.equalsIgnoreCase("forwardbtc")) {
             try {
-                String addressStr = "mznKGNMyLjxZdiNbno7mUFks9eop49TRdu";
+                String addressStr = request.getParameter("address");
                 Wallet forwardingwallet = WalletKitInstance.getForwardingKit().wallet();
                 Set<Transaction> txList = forwardingwallet.getTransactions(false);
                 for (Transaction tx : txList) {
                     Address address = new Address(WalletKitInstance.getParams(),addressStr);
-                    new WalletUtils().sendToUser(address, tx);
+                    //new WalletUtils().sendToUser(address, tx);
                     break;
                 }
             } catch (WrongNetworkException e) {
